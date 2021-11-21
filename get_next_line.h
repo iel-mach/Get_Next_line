@@ -6,7 +6,7 @@
 /*   By: iel-mach <iel-mach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 22:50:16 by iel-mach          #+#    #+#             */
-/*   Updated: 2021/11/18 22:55:20 by iel-mach         ###   ########.fr       */
+/*   Updated: 2021/11/21 19:41:44 by iel-mach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,5 +16,7 @@
 # include <unistd.h>
 # include <stdlib.h>
 
-
+size_t	ft_strlen(const char *s);
+char	*ft_strjoin(char const	*s1, char const	*s2);
+char	*get_next_line(int fd);
 #endif
