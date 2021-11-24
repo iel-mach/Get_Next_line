@@ -6,48 +6,79 @@
 /*   By: iel-mach <iel-mach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 22:48:27 by iel-mach          #+#    #+#             */
-/*   Updated: 2021/11/21 19:40:29 by iel-mach         ###   ########.fr       */
+/*   Updated: 2021/11/24 02:34:43 by iel-mach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-int	chtaibi_line(char *s)
+char	*ft_before_line(char *s)
 {
-	int i;
+	int	i;
+
+	if (!s[0])
+		return (NULL);
 	i = 0;
-	while(str[i])
+	while (s[i] && s[i] != '\n')
+		i++;
+	return (ft_substr(s, 0, i + 1));
+}
+
+char	*ft_after_line(char *s)
+{
+	char	*str;
+	int		i;
+
+	i = 0;
+	if (!s)
+		return (NULL);
+	while (s[i])
 	{
-		if(str[i] == '\n')
-			return(1);
+		if (s[i] == '\n')
+		{
+			str = ft_substr(s, i + 1, ft_strlen(s));
+			free (s);
+			return (str);
+		}
 		i++;
 	}
-	return(0);
+	free (s);
+	return (NULL);
 }
-char	*getline(int fd, char *a)
+
+char	*ft_getline(int fd, char *a)
 {
-	char *str;
-	int t;
-	str = malloc(BUFFER_SIZE + 1);
+	char	*str;
+	int		t;
+
+	str = malloc (BUFFER_SIZE + 1);
 	t = 1;
-	while(!chtaibi_line(str) && t)
+	while (!check_line(a) && t)
 	{
 		t = read(fd, str,BUFFER_SIZE);
 		if (t == -1)
 		{
 			free(str);
-			return(NULL);
+			return (NULL);
 		}
 		str[t] = '\0';
-		a = ft_strjoin(a,str);
-		
+		a = ft_strjoin(a, str);	
 	}
 	free(str);
-	return(a);
+	return (a);
 }
+
 char	*get_next_line(int fd)
 {
-	static char *str;
-	char *l;
-	
+	static char	*red;
+	char		*l;
+
+	if (fd < 0 || BUFFER_SIZE <= 0)
+		return (NULL);
+	red = ft_getline(fd, red);
+	if (!red)
+		return (NULL);
+	l = ft_before_line (red);
+	red = ft_after_line(red);
+	return (l);
 }
